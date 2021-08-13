@@ -5,7 +5,7 @@ import lesson_3
 
 def hh_vacancies():
     my_vacancy = input('Input your desired vacancy: ')
-    page_num = 38
+    page_num = 0
     while page_num != '':
         url = 'https://hh.ru'
         params = {
