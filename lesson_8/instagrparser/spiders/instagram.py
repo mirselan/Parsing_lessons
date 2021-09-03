@@ -42,15 +42,16 @@ class InstagramSpider(scrapy.Spider):
         for i in self.friends_type:
             url_friends = f'{self.api_url}{user_id}/{i}/?{urlencode(variables)}'
 
-        yield response.follow(url_friends,
-                              callback=self.user_friends_parse,
-                              headers=headers,
-                              cb_kwargs={'username': username,
-                                         'user_id': user_id,
-                                         'variables': deepcopy(variables)}
-                              )
+            yield response.follow(url_friends,
+                                  callback=self.user_friends_parse,
+                                  headers=headers,
+                                  cb_kwargs={'username': username,
+                                             'user_id': user_id,
+                                             'friends_types': i,
+                                             'variables': deepcopy(variables)}
+                                  )
 
-    def user_friends_parse(self, response: HtmlResponse, username, user_id, variables):
+    def user_friends_parse(self, response: HtmlResponse, username, friends_types, user_id, variables):
         if response.status == 200:
             j_data = response.json()
             if j_data.get('next_max_id'):
@@ -64,11 +65,13 @@ class InstagramSpider(scrapy.Spider):
                                       headers=headers,
                                       cb_kwargs={'username': username,
                                                  'user_id': user_id,
+                                                 'friends_types': friends_types,
                                                  'variables': deepcopy(variables)})
 
             friends = j_data.get('users')
             for friend in friends:
                 item = InstagrparserItem(host_username=username,
+                                         friends_types=friends_types,
                                          user_id=friend.get('pk'),
                                          username=friend.get('username'),
                                          full_name=friend.get('full_name'),
