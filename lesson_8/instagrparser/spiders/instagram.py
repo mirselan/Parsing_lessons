@@ -68,7 +68,8 @@ class InstagramSpider(scrapy.Spider):
 
             friends = j_data.get('users')
             for friend in friends:
-                item = InstagrparserItem(user_id=friend.get('pk'),
+                item = InstagrparserItem(host_username=username,
+                                         user_id=friend.get('pk'),
                                          username=friend.get('username'),
                                          full_name=friend.get('full_name'),
                                          picture=friend.get('profile_pic_url'),

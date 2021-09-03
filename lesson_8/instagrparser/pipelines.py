@@ -15,7 +15,7 @@ class InstagrparserPipeline:
         self.mongo_base = client.instagr0209
 
     def process_item(self, item, spider):
-        collection = self.mongo_base[spider.name]
+        collection = self.mongo_base[item['host_username']]
         collection.insert_one(item)
 
         return item

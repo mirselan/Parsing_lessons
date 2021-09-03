@@ -8,6 +8,7 @@ import scrapy
 
 class InstagrparserItem(scrapy.Item):
     _id = scrapy.Field()
+    host_username = scrapy.Field()
     user_id = scrapy.Field()
     username = scrapy.Field()
     full_name = scrapy.Field()
